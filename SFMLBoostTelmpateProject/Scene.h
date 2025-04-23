@@ -1,16 +1,15 @@
 #ifndef SC_H
 #define SC_H
 
+#include <SFML/Graphics.hpp>
+#include "GeometricPrimitives.h"
+using namespace Model;
 namespace View {
 
     class Scene {
-        static 
     public:
-        float X() const;
-        float Y() const;
-        float Z() const;
-        Point(float x, float y, float z);
-
+        static sf::Vector2f projectTo2D(const Point& point, float focalLength, float screenWidth, float screenHeight);
+        
     private:
         float _x, _y, _z;
     };

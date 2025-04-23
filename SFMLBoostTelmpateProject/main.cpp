@@ -4,14 +4,10 @@
 #define _USE_MATH_DEFINES // For M_PI in Windows
 #include <math.h> //For M_PI in Windows, and for older compilers
 #include "GeometricPrimitives.h"
+#include "Scene.h"
 using namespace Model;
+using namespace View;
 
-
-sf::Vector2f projectTo2D(const Point& point, float focalLength, float screenWidth, float screenHeight) {
-    float x = point.X() * focalLength / (point.Z() + focalLength);
-    float y = point.Y() * focalLength / (point.Z() + focalLength);
-    return sf::Vector2f(x + screenWidth / 2.0f, y + screenHeight / 2.0f);
-}
 
 int main() {
     const int screenWidth = 800;
@@ -63,11 +59,11 @@ int main() {
 
     std::vector<sf::Vertex> gridVertices;
     for (int x = -planeSize; x <= planeSize; x += gridSize) {
-        gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(static_cast<float>(x), -planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
-        gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(static_cast<float>(x), planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+        gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(static_cast<float>(x), -planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+        gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(static_cast<float>(x), planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
 
-        gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(-planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
-        gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+        gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(-planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+        gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
     }
 
     while (window.isOpen()) {
@@ -118,11 +114,11 @@ int main() {
 
         gridVertices.clear();
         for (int x = -planeSize; x <= planeSize; x += gridSize) {
-            gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(static_cast<float>(x), -planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
-            gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(static_cast<float>(x), planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+            gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(static_cast<float>(x), -planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+            gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(static_cast<float>(x), planeSize, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
 
-            gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(-planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
-            gridVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+            gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(-planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
+            gridVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(planeSize, static_cast<float>(x), points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color(100, 100, 100)));
         }
 
         window.draw(gridVertices.data(), gridVertices.size(), sf::Lines);
@@ -130,18 +126,18 @@ int main() {
         if (points.size() > 1) {
             std::vector<sf::Vertex> lineVertices;
             for (const auto& point : points) {
-                lineVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(point), focalLength, screenWidth, screenHeight), sf::Color::White));
+                lineVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(point), focalLength, screenWidth, screenHeight), sf::Color::White));
             }
             window.draw(lineVertices.data(), lineVertices.size(), sf::LineStrip);
         }
 
         std::vector<sf::Vertex> axesVertices;
 
-        axesVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(0, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Red));
-        axesVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(50, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Red));
+        axesVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(0, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Red));
+        axesVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(50, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Red));
 
-        axesVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(0, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Green));
-        axesVertices.push_back(sf::Vertex(projectTo2D(rotatePoint(Point(0, 50, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Green));
+        axesVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(0, 0, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Green));
+        axesVertices.push_back(sf::Vertex(Scene::projectTo2D(rotatePoint(Point(0, 50, points[0].Z())), focalLength, screenWidth, screenHeight), sf::Color::Green));
 
         window.draw(axesVertices.data(), axesVertices.size(), sf::Lines);
 
